@@ -1,0 +1,10 @@
+<mat-toolbar>Home</mat-toolbar>
+<section fxLayout="column"
+         fxLayoutAlign="start stretch">
+  <mat-form-field>
+    <mat-label>QR Code Value</mat-label>
+    <input matInput
+           (keyup.enter)="render($event)" />
+  </mat-form-field>
+  <p>{{code}}</p>
+</section>
