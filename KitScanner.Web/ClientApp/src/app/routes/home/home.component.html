@@ -6,5 +6,6 @@
     <input matInput
            (keyup.enter)="render($event)" />
   </mat-form-field>
-  <p>{{code}}</p>
 </section>
+<section [innerHTML]="svg" [style.width.px]="320"></section>
+<canvas #qrCanvas></canvas>
