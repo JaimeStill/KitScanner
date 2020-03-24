@@ -1,4 +1,2 @@
-export * from './ecc';
-export * from './mode';
-export * from './qr-code';
-export * from './qr-segment';
+export * from './generator';
+export * from './reader';

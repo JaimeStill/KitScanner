@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import {
-  Ecc,
+  GenEcc,
   QrCode
-} from '../models';
+ } from '../models';
 
 @Injectable()
 export class QrService {
-  generateACode = (value: string, ecc: Ecc = Ecc.HIGH, border: number = 4) => {
+  generateACode = (value: string, ecc: GenEcc = GenEcc.HIGH, border: number = 4) => {
     console.log('generateCode.value', value);
     console.log('generateCode.ecc', ecc);
     console.log('generateCode.border', border);
@@ -21,7 +21,7 @@ export class QrService {
     return svg;
   }
 
-  generateCode = (value: string, ecc: Ecc = Ecc.HIGH, border: number = 4): QrCode => QrCode.encodeText(value, ecc);
+  generateCode = (value: string, ecc: GenEcc = GenEcc.HIGH, border: number = 4): QrCode => QrCode.encodeText(value, ecc);
   generateSvg = (code: QrCode) => code.toSvgString(4);
   drawCanvas = (code: QrCode, scale: number, border: number, canvas: HTMLCanvasElement) => code.drawCanvas(scale, border, canvas);
 }

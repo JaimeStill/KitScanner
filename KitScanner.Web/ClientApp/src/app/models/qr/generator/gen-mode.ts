@@ -1,13 +1,11 @@
-type int = number;
-
 /*
   Describes how a segment's data bits are interpreted. Immutable.
 */
-export class Mode {
-  public static readonly NUMERIC = new Mode(0x1, [10, 12, 14]);
-  public static readonly ALPHANUMERIC = new Mode(0x2, [9, 11, 13]);
-  public static readonly BYTE = new Mode(0x4, [8, 16, 16]);
-  public static readonly ECI = new Mode(0x7, [0, 0, 0]);
+export class GenMode {
+  public static readonly NUMERIC = new GenMode(0x1, [10, 12, 14]);
+  public static readonly ALPHANUMERIC = new GenMode(0x2, [9, 11, 13]);
+  public static readonly BYTE = new GenMode(0x4, [8, 16, 16]);
+  public static readonly ECI = new GenMode(0x7, [0, 0, 0]);
 
   private constructor(
     // The mode indicator bits, which is a uint4 value (range 0 to 15).

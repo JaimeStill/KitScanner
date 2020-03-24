@@ -1,8 +1,4 @@
-type bit = number;
-type byte = number;
-type int = number;
-
-import { Ecc } from './ecc';
+import { GenEcc } from './gen-ecc';
 import { QrSegment } from './qr-segment';
 
 /*
@@ -72,7 +68,7 @@ export class QrCode {
     public readonly version: int,
 
     // The error correction level used in this QR Code.
-    public readonly errorCorrectionLevel: Ecc,
+    public readonly errorCorrectionLevel: GenEcc,
 
     dataCodewords: Array<byte>,
 
@@ -146,7 +142,7 @@ export class QrCode {
   // Returns the number of 8-bit data (i.e. not error correction) codewords contained in any
   // QR Code of the given version number and error correction level, with remainder bits discarded.
   // This stateless pure function could be implemented as a (40*4)-cell lookup table.
-  private static getNumDataCodewords = (ver: int, ecl: Ecc): int =>
+  private static getNumDataCodewords = (ver: int, ecl: GenEcc): int =>
     Math.floor(QrCode.getNumRawDataModules(ver) / 8) -
       QrCode.ECC_CODEWORDS_PER_BLOCK[ecl.ordinal][ver] *
       QrCode.NUM_ERROR_CORRECTION_BLOCKS[ecl.ordinal][ver];
@@ -213,7 +209,7 @@ export class QrCode {
   // Unicode code points (not UTF-16 code units) if the low error correction level is used. The smallest possible
   // QR Code version is automatically chosen for the output. The ECC level of the result may be higher than the
   // ecl argument if it can be done without increasing the version.
-  public static encodeText(text: string, ecl: Ecc): QrCode {
+  public static encodeText(text: string, ecl: GenEcc): QrCode {
     const segs = QrSegment.makeSegments(text);
     return QrCode.encodeSegments(segs, ecl);
   }
@@ -222,7 +218,7 @@ export class QrCode {
   // This function always encodes using the binary segment mode, not any text mode. The maximum number of
   // bytes allowed is 2953. The smallest possible QR Code version is automatically chosen for the output.
   // The ECC level of the result may be higher than the ecl argument if it can be done without increasing the version.
-  public static encodeBinary(data: Array<byte>, ecl: Ecc): QrCode {
+  public static encodeBinary(data: Array<byte>, ecl: GenEcc): QrCode {
     const seg: QrSegment = QrSegment.makeBytes(data);
     return QrCode.encodeSegments([seg], ecl);
   }
@@ -236,7 +232,7 @@ export class QrCode {
   // This function allows the user to create a custom sequence of segments that switches
   // between modes (such as alphanumeric and byte) to encode text in less space.
   // This is a mid-level API; the high-level API is encodeText() and encodeBinary().
-  public static encodeSegments(segs: Array<QrSegment>, ecl: Ecc,
+  public static encodeSegments(segs: Array<QrSegment>, ecl: GenEcc,
     minVersion: int = 1, maxVersion: int = 40,
     mask: int = -1, boostEcl: boolean = true): QrCode {
 
@@ -259,7 +255,7 @@ export class QrCode {
     }
 
     // Increase the error correction level while the data still fits in the current version number
-    for (const newEcl of [Ecc.MEDIUM, Ecc.QUARTILE, Ecc.HIGH]) {  // From low to high
+    for (const newEcl of [GenEcc.MEDIUM, GenEcc.QUARTILE, GenEcc.HIGH]) {  // From low to high
       if (boostEcl && dataUsedBits <= QrCode.getNumDataCodewords(version, newEcl) * 8)
         ecl = newEcl;
     }
@@ -416,7 +412,7 @@ export class QrCode {
   // codewords appended to it, based on this object's version and error correction level.
   private addEccAndInterleave(data: Array<byte>): Array<byte> {
     const ver: int = this.version;
-    const ecl: Ecc = this.errorCorrectionLevel;
+    const ecl: GenEcc = this.errorCorrectionLevel;
     if (data.length != QrCode.getNumDataCodewords(ver, ecl))
       throw "Invalid argument";
 
