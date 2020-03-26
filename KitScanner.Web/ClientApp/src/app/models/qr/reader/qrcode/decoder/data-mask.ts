@@ -28,7 +28,7 @@ export class DataMask {
     [DataMaskValues.DATA_MASK_111, new DataMask(DataMaskValues.DATA_MASK_111, (i: number, j: number) => ((i + j + ((i * j) % 3)) & 0x01) === 0)],
   ]);
 
-  unmaskBitMatris = (bits: BitMatrix, dimension: number) => {
+  unmaskBitMatrix = (bits: BitMatrix, dimension: number) => {
     for (let i = 0; i < dimension; i++)
       for (let j = 0; j < dimension; j++)
         if (this.isMasked(i, j))
