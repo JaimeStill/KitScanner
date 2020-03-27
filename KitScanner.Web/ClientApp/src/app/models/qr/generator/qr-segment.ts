@@ -1,8 +1,4 @@
-type bit = number;
-type byte = number;
-type int = number;
-
-import { Mode } from './mode';
+import { GenMode } from './gen-mode';
 
 /*
   A segment of character / binary / control data in a QR code symbol.
@@ -36,7 +32,7 @@ export class QrSegment {
   // but the constraint isn't checked. The given bit buffer is cloned and stored.
   public constructor(
     // The mode indicator of this segment.
-    public readonly mode: Mode,
+    public readonly mode: GenMode,
 
     // The length of this segment's unencoded data. Measured in characters for
     // numeric/alphanumeric/kanji mode, bytes for byte mode, and 0 for ECI mode.
@@ -85,7 +81,7 @@ export class QrSegment {
     let bb: Array<bit> = []
     for (const b of data)
       QrSegment.appendBits(b, 8, bb);
-    return new QrSegment(Mode.BYTE, data.length, bb);
+    return new QrSegment(GenMode.BYTE, data.length, bb);
   }
 
   // Returns a segment representing the given string of decimal digits encoded in numeric mode.
@@ -98,7 +94,7 @@ export class QrSegment {
       QrSegment.appendBits(parseInt(digits.substr(i, n), 10), n * 3 + 1, bb);
       i += n;
     }
-    return new QrSegment(Mode.NUMERIC, digits.length, bb);
+    return new QrSegment(GenMode.NUMERIC, digits.length, bb);
   }
 
   // Returns a segment representing the given text string encoded in alphanumeric mode.
@@ -116,7 +112,7 @@ export class QrSegment {
     }
     if (i < text.length)  // 1 character remaining
       QrSegment.appendBits(QrSegment.ALPHANUMERIC_CHARSET.indexOf(text.charAt(i)), 6, bb);
-    return new QrSegment(Mode.ALPHANUMERIC, text.length, bb);
+    return new QrSegment(GenMode.ALPHANUMERIC, text.length, bb);
   }
 
   // Returns a new mutable list of zero or more segments to represent the given Unicode text string.
@@ -149,7 +145,7 @@ export class QrSegment {
       QrSegment.appendBits(assignVal, 21, bb);
     } else
       throw "ECI assignment value out of range";
-    return new QrSegment(Mode.ECI, 0, bb);
+    return new QrSegment(GenMode.ECI, 0, bb);
   }
 
   // (Package-private) Calculates and returns the number of bits needed to encode the given segments at

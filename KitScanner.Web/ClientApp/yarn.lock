@@ -7706,6 +7706,11 @@ tree-kill@1.2.2:
   resolved "https://registry.yarnpkg.com/tree-kill/-/tree-kill-1.2.2.tgz#4ca09a9092c88b73a7cdc5e8a01b507b0790a0cc"
   integrity sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==
 
+ts-custom-error@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/ts-custom-error/-/ts-custom-error-3.1.1.tgz#d30c7415461dac93dc2cc9e9eb2dae92e6423901"
+  integrity sha512-f/syoy+pTE4z82qaiRuthEeZtCGNKzlfs0Zc8jpQFcz/CYMaFSwFSdfFt1sSFnPlDLOEm7RCROdIxZ44N8UlwA==
+
 ts-node@^8.6.2:
   version "8.6.2"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-8.6.2.tgz#7419a01391a818fbafa6f826a33c1a13e9464e35"
