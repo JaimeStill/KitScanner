@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import {
   GenEcc,
-  QrCode
+  QrCode,
+  BrowserMultiFormatReader
  } from '../models';
 
 @Injectable()
@@ -24,4 +25,9 @@ export class QrService {
   generateCode = (value: string, ecc: GenEcc = GenEcc.HIGH, border: number = 4): QrCode => QrCode.encodeText(value, ecc);
   generateSvg = (code: QrCode) => code.toSvgString(4);
   drawCanvas = (code: QrCode, scale: number, border: number, canvas: HTMLCanvasElement) => code.drawCanvas(scale, border, canvas);
+
+  readFromImage = async (url: string) => {
+    const reader = new BrowserMultiFormatReader();
+    return await reader.decodeFromImageUrl(url);
+  }
 }
